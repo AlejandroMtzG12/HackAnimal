@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TheShelterManager – Adopciones</title>
+  <link rel="stylesheet" href="css/style_info_refugio.css">
+</head>
+<body>
+  <header>
+    <h1>Up for adoption</h1>
+  </header>
+
+  <div id="layout">
+    <aside aria-label="Información del refugio">
+      <div>
+        <h2>TheShelterManager</h2>
+        <h3>Shelter</h3>
+        <figure>
+          <img src="imagenes/logo-refugio.png" alt="Logo del refugio" width="140" height="140" />
+        </figure>
+        <section>
+          <h4>Address</h4>
+          <p>Street Name 123 City,<br />State 72000 Mexico</p>
+        </section>
+        <section>
+          <h4>Contact</h4>
+          <p>+52 487 596 5412</p>
+        </section>
+        <section>
+          <p>We have many animals in need of a home, our goal is to provide forever homes for all of them.</p>
+        </section>
+        <nav>
+          <a href="#forms">Fill adoption form</a>
+        </nav>
+      </div>
+    </aside>
+
+    <main>
+      <section aria-label="Búsqueda y orden">
+        <form>
+          <label for="search">Search</label>
+          <input id="search" name="q" type="search" placeholder="Search by name" />
+          <label for="order">Order by</label>
+          <select id="order" name="order">
+            <option value="register">Register date ↑</option>
+            <option value="alpha">Alphabetical</option>
+            <option value="age">Age</option>
+            <option value="days">Days in shelter</option>
+            <option value="size">Size</option>
+          </select>
+        </form>
+      </section>
+
+      <section aria-label="Filtros">
+        <form>
+          <fieldset>
+            <legend>Filter</legend>
+            <label><input type="checkbox" /> Dogs</label>
+            <label><input type="checkbox" /> Cats</label>
+            <label><input type="checkbox" /> Small mammals</label>
+            <label><input type="checkbox" /> Vaccinated</label>
+            <label><input type="checkbox" /> Spayed or Neutered</label>
+          </fieldset>
+        </form>
+      </section>
+
+      <article aria-label="Ficha de adopción">
+        <header>
+          <h2>Rex – Dog </h2>
+          <a href="#edit">Edit </a>
+        </header>
+        <section>
+          <figure>
+            <img src="imagenes/remi.png" alt="Foto" />
+          </figure>
+          <div class="info-columns">
+            <dl>
+              <dt>Age</dt>
+              <dt>Fur</dt>
+              <dt>Size</dt>
+              <dt>Color</dt>
+              <dt>Breed</dt>
+              <dt>Weight</dt>
+            </dl>
+            <dl>
+              <dt>Status</dt>
+              <dt>Vaccines</dt>
+              <dt>Ailments</dt>
+              <dt>Disabilities</dt>
+              <dt>Spayed/Nutered</dt>
+              <dt>Description</dt>
+            </dl>
+          </div>
+        </section>
+        <footer>
+          <a href="#adopt">I want to adopt this pet!</a>
+        </footer>
+      </article>
+    </main>
+  </div>
+
+</body>
+</html>
