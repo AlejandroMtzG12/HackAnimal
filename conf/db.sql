@@ -1,61 +1,61 @@
-CREATE TABLE `CentroAdopcion` (
+CREATE TABLE `adoptionCenter` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `usuario` varchar(255),
-  `contrasenia` varchar(255),
-  `pais` varchar(255),
-  `estado` varchar(255),
-  `ciudad` varchar(255),
-  `cp` varchar(255),
-  `calle` varchar(255),
-  `direccion` text
+  `user` varchar(255),
+  `password` varchar(255),
+  `country` varchar(255),
+  `state` varchar(255),
+  `city` varchar(255),
+  `postalCode` varchar(255),
+  `street` varchar(255),
+  `address` text
 );
 
-CREATE TABLE `Mascota` (
+CREATE TABLE `pet` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `centro_id` int,
-  `nombre` varchar(255),
-  `edad` int,
-  `pelaje` varchar(255),
-  `tamanio` varchar(255),
+  `adoptionCenterId` int,
+  `name` varchar(255),
+  `age` int,
+  `coat` varchar(255),
+  `size` varchar(255),
   `color` varchar(255),
-  `raza` varchar(255),
-  `peso` float,
-  `descripcion` text,
-  `sexo` varchar(255),
-  `expediente_id` int
+  `breed` varchar(255),
+  `weight` float,
+  `description` text,
+  `gender` varchar(255),
+  `fileId` int
 );
 
-CREATE TABLE `Expediente` (
+CREATE TABLE `file` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `estatus` varchar(255),
-  `vacunas` text,
-  `padecimientos` text,
-  `discapacidad` text,
-  `esterilizacion` boolean,
-  `cuarentena` boolean
+  `status` varchar(255),
+  `vaccines` text,
+  `conditions` text,
+  `disability` text,
+  `sterilization` boolean,
+  `quarantine` boolean
 );
-
-CREATE TABLE `Adoptante` (
+CREATE TABLE `adopter` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
-  `nombre` varchar(255),
-  `correo` varchar(255),
-  `contrasena` varchar(255),
-  `pais` varchar(255),
-  `estado` varchar(255),
-  `ciudad` varchar(255),
-  `cp` varchar(255),
-  `calle` varchar(255),
-  `direccion` text,
-  `edad` int,
-  `tipo_vivienda` varchar(255),
-  `otras_mascotas` boolean,
-  `ninos` boolean,
-  `tiempo_libre` text,
-  `telefono` varchar(255),
-  `patio` boolean,
-  `descripcion` text
+  `user` varchar(50) UNIQUE,
+  `name` varchar(55),
+  `email` tinytext,
+  `password` varchar(20),
+  `country` varchar(255),
+  `state` varchar(255),
+  `city` varchar(255),
+  `postalCode` varchar(10),
+  `street` varchar(255),
+  `address` text,
+  `age` varchar(3),
+  `housingType` varchar(255),
+  `otherPets` boolean,
+  `children` boolean,
+  `freeTime` text,
+  `phone` varchar(255),
+  `yard` boolean,
+  `description` text
 );
 
-ALTER TABLE `Mascota` ADD FOREIGN KEY (`centro_id`) REFERENCES `CentroAdopcion` (`id`);
+ALTER TABLE `pet` ADD FOREIGN KEY (`adoptionCenterId`) REFERENCES `adoptionCenter` (`id`);
 
-ALTER TABLE `Mascota` ADD FOREIGN KEY (`expediente_id`) REFERENCES `Expediente` (`id`);
+ALTER TABLE `pet` ADD FOREIGN KEY (`fileId`) REFERENCES `file` (`id`);

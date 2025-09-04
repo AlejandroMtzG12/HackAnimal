@@ -16,22 +16,22 @@
     <h1>TheShelterManager</h1>
   </nav>
   <div class="container">
-    <form action="">
+    <form method="post" action="apis/signup.php">
       <h1>Sign Up</h1>
       <div class="usnbox">
-        <input type="text" placeholder="Username" required>
+        <input type="text" placeholder="Username" name="user" required>
       </div>
       <div class="passbox">
-        <input type="password" placeholder="Password" required>
+        <input type="password" placeholder="Password" name="password" required>
       </div>
-
-    </form>
     <div class="forbox">
       <label><input type="checkbox">Remember me</label>
     </div>
     <div class="btnbox">
-      <button>Register</button>
+      <button type="submit">Register</button>
     </div>
+    </form>
+
 
   </div>
   
