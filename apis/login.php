@@ -1,38 +1,25 @@
 <?php
 session_start();
 include_once('../conf/db.config.php'); 
-// Instantiate the Database class and get the PDO connection
 $db = new Database();
 $pdo = $db->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $_POST['user'];
     $password = $_POST['password'];
-    $query = $db->prepare("SELECT id, name, password, rol FROM adopter WHERE user = ?");
-    $query->bind_param('s', $user);
-    $query->execute();
-    $result = $query->get_result();
-    if ($result->num_rows === 1) {
-        $r = $result->fetch_assoc();
 
-        // Verifica la contraseña
-        if (password_verify($password, $r['password'])) {
-            // Regenerar ID de sesión para evitar secuestro de sesión
-            session_regenerate_id(true);
-            $_SESSION['user_id'] = $r['id'];
-            $_SESSION['name'] = $r['name'];
-            $_SESSION['rol'] = $r['rol']; // Almacenar el rol en la sesión
+    $query = $pdo->prepare("SELECT id, name, password FROM adopter WHERE user = ?");
+    $query->execute([$user]);
+    $r = $query->fetch(PDO::FETCH_ASSOC);
 
-            // Redirigir al dashboard o a la página correspondiente según el rol
-            if ($r['rol'] === 'admin') {
-                header('Location: dashboard.php'); // Redirige a la página del administrador
-            } else {
-                header('Location: dashboard.php'); // Redirige a la página de inicio para otros usuarios
-            }
-            exit(); // Termina el script para evitar la ejecución posterior
-        }
-    }
-    echo "
+    if ($r && password_verify($password, $r['password'])) {
+        session_regenerate_id(true);
+        $_SESSION['user_id'] = $r['id'];
+        $_SESSION['name'] = $r['name'];
+        header('Location: ../index.html');
+        exit();
+    } else {
+        echo "
     <!DOCTYPE html>
 <html lang='es'>
 <head>
@@ -111,5 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </html>
 
     "; // Mensaje de error
+    }
 }
+    
+
 ?>
