@@ -1,0 +1,186 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  color: white;
+}
+
+body {
+  background-image: url("../imagenes/AdoptionManager_Background.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+header {
+  background-color: #763c85;
+  padding: 15px 30px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+}
+
+#layout {
+  display: flex;
+  padding: 20px;
+  gap: 20px;
+}
+
+aside {
+  width: 25%;
+  background-color: rgba(26, 28, 74, 0.9);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+aside h2 {
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+
+aside h3 {
+  color: #ddd;
+  margin-top: 0;
+}
+
+aside figure img {
+  border-radius: 50%;
+  margin: 1rem auto;
+  display: block;
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+}
+
+aside section {
+  margin: 1rem 0;
+}
+
+aside nav a {
+  display: block;
+  background-color: #9255a5;
+  color: white;
+  text-align: center;
+  padding: 0.7rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+aside nav a:hover {
+  font-weight: bold;
+  background-color: #a56bb7;
+}
+
+/* ====== MAIN ====== */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+section form {
+  background-color: rgba(255,255,255,0.9);
+  color: #333;
+  border-radius: 15px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+form label {
+  margin-right: 0.5rem;
+}
+
+input, select, textarea, button {
+  margin: 0.3rem 0;
+  padding: 0.5rem 0.7rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #763c85;
+  box-shadow: 0 0 5px rgba(118,60,133,0.5);
+}
+
+fieldset {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 0.5rem 1rem;
+}
+
+article {
+  background-color: rgba(255,255,255,0.95);
+  color: #333;
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+article header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+article h2 {
+  margin: 0;
+  color: #763c85;
+}
+
+article section {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+article img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.info-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+article footer a {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #4577ad;
+  color: white;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 20px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+article footer a:hover {
+  background-color: #365d88;
+}
+
+@media (max-width: 900px) {
+  #layout {
+    flex-direction: column;
+  }
+  aside {
+    width: 100%;
+  }
+}
