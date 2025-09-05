@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user = $_POST['user'];
     $password = $_POST['password'];
 
-    $query = $pdo->prepare("SELECT id, name, password FROM adopter WHERE user = ?");
+    $query = $pdo->prepare("SELECT id, name, password FROM adoptioncenter WHERE user = ?");
     $query->execute([$user]);
     $r = $query->fetch(PDO::FETCH_ASSOC);
 
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_regenerate_id(true);
         $_SESSION['user_id'] = $r['id'];
         $_SESSION['name'] = $r['name'];
-        header('Location: ../index.html');
+        header('Location: ../myanimals.html');
         exit();
     } else {
         echo "

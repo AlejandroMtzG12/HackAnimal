@@ -1,9 +1,9 @@
 <?php
 class Database {
-    private $host = 'mysql.hostinger.com'; // Database host
-    private $db = 'u156437425_hackAnimal'; // Database name
-    private $user = 'u156437425_hackAnimal'; // Database username
-    private $pass = 'hackAnimal1&%#ui*^###'; // Database password, leave empty for root user without password
+    private $host = 'localhost'; // Database host
+    private $db = 'hackAnimal'; // Database name
+    private $user = 'root'; // Database username
+    private $pass = ''; // Database password, leave empty for root user without password
     private $pdo;
 
     public function __construct() {

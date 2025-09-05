@@ -1,4 +1,5 @@
 <?php
+session_start();
 	class Database {
 		private static $dbName        = 'hackanimal';
 		private static $dbHost        = 'localhost'; 
@@ -13,7 +14,6 @@
 		}
 
 		public static function connect(){
-		   // One connection through whole application
 	    	if ( null == self::$cont ) {
 		    	try {
 		        	self::$cont =  new PDO( "mysql:host=".self::$dbHost.";"."dbname=".self::$dbName, self::$dbUsername, self::$dbUserPassword);

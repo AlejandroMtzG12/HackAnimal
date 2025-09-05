@@ -1,25 +1,64 @@
 <?php
 session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit();
+}
+
 include_once('../conf/db.config.php'); 
 
-// Instantiate the Database class and get the PDO connection
+// Instanciar la conexión
 $db = new Database();
 $pdo = $db->getConnection();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Collect POST data
+    // Recolectar datos
     $user = $_POST['user'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT); 
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $shelterName = $_POST['shelterName'];
+    $country = $_POST['country'];
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $postalCode = $_POST['postalCode'];
+    $street = $_POST['street'];
+    $description = !empty($_POST['description']) ? $_POST['description'] : null;
+
+    // Manejo de la foto
+    $photoPath = null;
+    if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = '../uploads/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
+        }
+        $fileName = uniqid('shelter_') . "_" . basename($_FILES['photo']['name']);
+        $targetPath = $uploadDir . $fileName;
+        if (move_uploaded_file($_FILES['photo']['tmp_name'], $targetPath)) {
+            $photoPath = 'uploads/' . $fileName;
+        }
+    }
+
 
     try {
-        // Prepare the query using PDO
-        $query = $pdo->prepare("INSERT INTO adopter (user, password) VALUES (:user, :password)");
+        // Preparar query (ajusta columnas según tu tabla adoptioncenter)
+        $query = $pdo->prepare("
+            INSERT INTO adoptioncenter 
+            (user, password, name, country, city, state, postalCode, street, photo) 
+            VALUES 
+            (:user, :password, :name, :country, :city, :state, :postalCode, :street, :photo)
+        ");
         
-        // Bind parameters
+        // Bind de parámetros
         $query->bindParam(':user', $user, PDO::PARAM_STR);
         $query->bindParam(':password', $password, PDO::PARAM_STR);
+        $query->bindParam(':name', $shelterName, PDO::PARAM_STR);
+        $query->bindParam(':country', $country, PDO::PARAM_STR);
+        $query->bindParam(':city', $city, PDO::PARAM_STR);
+        $query->bindParam(':state', $state, PDO::PARAM_STR);
+        $query->bindParam(':postalCode', $postalCode, PDO::PARAM_STR);
+        $query->bindParam(':street', $street, PDO::PARAM_STR);
+        $query->bindParam(':photo', $photoPath, PDO::PARAM_STR);
 
-        // Execute the query
+        // Ejecutar
         if ($query->execute()) {
             echo "
 <!DOCTYPE html>
@@ -29,61 +68,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Registro Exitoso</title>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <style>
-        body {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/28/Papel_picado.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Festive', cursive;
-        }
-        .success-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 2px solid #28a745;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 100%;
-        }
-        .success-icon {
-            font-size: 80px;
-            color: #28a745;
-            margin-bottom: 15px;
-        }
-        .retry-btn {
-            background-color: #007bff;
-            border: none;
-            color: white;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .retry-btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
-<body id='fondo'>
-    <div class='success-container'>
-        <div class='success-icon'>🎉</div>
-        <h2>¡Registro Exitoso!</h2>
-        <p>El usuario ha sido registrado correctamente. <br> ¡Bienvenido a nuestra plataforma!</p>
-        <a href='login.html' class='retry-btn'>Volver al inicio</a>
+<body class='d-flex justify-content-center align-items-center vh-100 bg-success text-white'>
+    <div class='text-center'>
+        <h1>🎉 Registro Exitoso</h1>
+        <p>¡Bienvenido $shelterName!</p>
+        <a href='../login.html' class='btn btn-light mt-3'>Ir al inicio</a>
     </div>
 </body>
-</html>
-";
+</html>";
         } else {
-            throw new Exception("Error during registration!");
+            throw new Exception("Error durante el registro");
         }
     } catch (PDOException $e) {
-        // Catch any database errors and display a user-friendly message
         echo "
 <!DOCTYPE html>
 <html lang='es'>
@@ -92,56 +89,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>Error al Registrar</title>
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-    <style>
-        body {
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/28/Papel_picado.jpg');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: 'Festive', cursive;
-        }
-        .error-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            border: 2px solid #e74c3c;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-            max-width: 400px;
-            width: 100%;
-        }
-        .error-icon {
-            font-size: 80px;
-            color: #e74c3c;
-            margin-bottom: 15px;
-        }
-        .retry-btn {
-            background-color: #28a745;
-            border: none;
-            color: white;
-            font-size: 18px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background-color 0.3s ease-in-out;
-        }
-        .retry-btn:hover {
-            background-color: #218838;
-        }
-    </style>
 </head>
-<body id='fondo'>
-    <div class='error-container'>
-        <div class='error-icon'>❌</div>
-        <h2>¡Uy! Hubo un error</h2>
-        <p>No se pudo registrar al usuario. <br> Por favor, inténtalo de nuevo más tarde.</p>
-        <a href='register.html' class='retry-btn'>Volver a intentar</a>
+<body class='d-flex justify-content-center align-items-center vh-100 bg-danger text-white'>
+    <div class='text-center'>
+        <h1>❌ Error</h1>
+        <p>No se pudo registrar al usuario.<br> {$e->getMessage()}</p>
+        <a href='../signup.html' class='btn btn-light mt-3'>Volver a intentar</a>
     </div>
 </body>
-</html>
-";
+</html>";
     }
 }
 ?>

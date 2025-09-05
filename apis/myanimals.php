@@ -1,4 +1,5 @@
 <?php
+
 require 'databaseconnection.php';
 header('Content-Type: application/json');
 
@@ -10,25 +11,28 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "SELECT p.id AS pet_id, 
-                   p.name, 
-                   p.species, 
-                   p.age, 
-                   p.coat, 
-                   p.size, 
-                   p.color, 
-                   p.breed, 
-                   p.weight, 
-                   p.description, 
-                   p.gender,
-                   f.status, 
-                   f.vaccines, 
-                   f.conditions, 
-                   f.disability, 
-                   f.sterilization, 
-                   f.quarantine
-            FROM pet p
-            INNER JOIN file f ON p.fileId = f.id
-            WHERE p.adoptionCenterId = ? AND f.status = ?";
+               p.name, 
+               p.species, 
+               p.age, 
+               p.coat, 
+               p.size, 
+               p.color, 
+               p.breed, 
+               p.weight, 
+               p.description, 
+               p.gender,
+               p.image,
+               f.status, 
+               f.conditions, 
+               f.disability, 
+               f.sterilization, 
+               f.quarantine,
+               GROUP_CONCAT(v.name) AS vaccines
+        FROM pet p
+        INNER JOIN file f ON p.fileId = f.id
+        LEFT JOIN vaccines v ON v.idFile = f.id
+        WHERE p.adoptionCenterId = ? AND f.status = ?
+        GROUP BY p.id";
 
     $q = $pdo->prepare($sql);
     $q->execute([$adoptionCenterId, $status]);

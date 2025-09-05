@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
   <title>Login</title>
-  <link rel="stylesheet" href="css/styles_login.css">
+  <link rel="stylesheet" href="css/styles_signup.css">
 
 </head>
 
@@ -15,26 +15,73 @@
   <nav>
     <h1>TheShelterManager</h1>
   </nav>
+
+<form method="post" action="apis/signup.php" enctype="multipart/form-data">
+<div class="main-container">
   <div class="container">
-    <form method="post" action="apis/signup.php">
-      <h1>Sign Up</h1>
+      <h1>Account data</h1>
       <div class="usnbox">
         <input type="text" placeholder="Username" name="user" required>
       </div>
       <div class="passbox">
         <input type="password" placeholder="Password" name="password" required>
       </div>
-    <div class="forbox">
-      <label><input type="checkbox">Remember me</label>
-    </div>
-    <div class="btnbox">
-      <button type="submit">Register</button>
-    </div>
-    </form>
+
 
 
   </div>
-  
+
+<div class="container2">
+      <h1>Shelter Data</h1>
+      <div class="photobox" id="previewBox">
+        <span></span>
+      </div>
+      <div class="namebox">
+        <input type="text" placeholder="Shelter Name" name="shelterName" required>
+      </div>
+      <div class="countrybox">
+        <input type="text" placeholder="Country" name="country" required>
+      </div>
+      <div class="citybox">
+        <input type="text" placeholder="City" name="city" required>
+      </div>
+      <div class="statebox">
+        <input type="text" placeholder="State" name="state" required>
+      </div>
+      <div class="zipbox">
+        <input type="text" placeholder="Zip Code" name="postalCode" required>
+      </div>
+      <div class="streetbox">
+        <input type="text" placeholder="Street" name="street" required>
+      </div>
+            <div class="photo">
+        <input type="file" placeholder="Photo" id="photoInput" name="photo" required>
+      </div>
+    </div>
+    </div>
+
+    <div class="btnbox">
+      <button type="submit">Register</button>
+    </div>
+
+  </form>
+
+
+  <script>
+    const photoInput = document.getElementById("photoInput");
+    const previewBox = document.getElementById("previewBox");
+
+    photoInput.addEventListener("change", function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          previewBox.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 </body>
 
 </html>
