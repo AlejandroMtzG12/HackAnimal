@@ -10,30 +10,43 @@ CREATE TABLE `adoptionCenter` (
   `address` text
 );
 
-CREATE TABLE `pet` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `adoptionCenterId` int,
-  `name` varchar(255),
-  `age` int,
-  `coat` varchar(255),
-  `size` varchar(255),
-  `color` varchar(255),
-  `breed` varchar(255),
-  `weight` float,
-  `description` text,
-  `gender` varchar(255),
-  `fileId` int
+CREATE TABLE pet (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  adoptionCenterId int,
+  species ENUM('Dog', 'Cat', 'SmallMammal'),
+  name varchar(255),
+  age int,
+  coat ENUM('None', 'Short', 'Medium', 'Large'),
+  size ENUM('ExtraSmall', 'Small', 'Medium', 'Large', 'ExtraLarge'),
+  color ENUM(
+  'Black','White','Brown','Golden','Cream','Grey','Tan','Brindle','Fawn','Red','Blue','Merle','Sable',
+  'Orange','Beige','Calico','Tortoiseshell','Tabby','Bicolor','Tricolor'
+),
+  breed varchar(255),
+  weight float,
+  description text,
+  image text,
+  gender ENUM('Male','Female', 'Intersex'),
+  fileId int
 );
 
-CREATE TABLE `file` (
-  `id` int PRIMARY KEY AUTO_INCREMENT,
-  `status` varchar(255),
-  `vaccines` text,
-  `conditions` text,
-  `disability` text,
-  `sterilization` boolean,
-  `quarantine` boolean
+CREATE TABLE file (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  status ENUM('UpForAdoption','InQuarantine', 'Adopted'),
+
+  conditions text,
+  disability text,
+  sterilization boolean,
+  quarantine int
 );
+
+CREATE TABLE vaccines (
+idVaccine int
+name VARCHAR(255)
+) 
+
+
+
 CREATE TABLE `adopter` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `user` varchar(50) UNIQUE,
@@ -59,3 +72,4 @@ CREATE TABLE `adopter` (
 ALTER TABLE `pet` ADD FOREIGN KEY (`adoptionCenterId`) REFERENCES `adoptionCenter` (`id`);
 
 ALTER TABLE `pet` ADD FOREIGN KEY (`fileId`) REFERENCES `file` (`id`);
+ALTER TABLE `vaccines` ADD FOREIGN KEY (`idFile`) REFERENCES `file` (`id`);
