@@ -4,7 +4,7 @@ html {
 }
 
 body {
-  background-image: url('../images/AdoptionManager_Background.png');
+  background-image: url('../img/AdoptionManager_Background.png');
   background-size: cover;
   font-family: 'Nunito', sans-serif;
   display: flex;
