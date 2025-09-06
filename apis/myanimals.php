@@ -4,7 +4,7 @@ require 'databaseconnection.php';
 header('Content-Type: application/json');
 
 $adoptionCenterId = $_GET['adoptionCenterId'] ?? 1;
-$status = $_GET['status'] ?? 'UpForAdoption'; // corregido
+$status = $_GET['status'] ?? 'UpForAdoption'; 
 
 try {
     $pdo = Database::connect();
