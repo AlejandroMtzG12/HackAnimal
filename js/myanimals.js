@@ -1,11 +1,13 @@
+// Toggle sidebar
 document.querySelector(".sidebar-toggle").addEventListener("click", () => {
   document.querySelector(".container").classList.toggle("sidebar-open");
 });
 
 document.addEventListener("DOMContentLoaded", () => {
   const menuItems = document.querySelectorAll(".navigation li");
-  const adoptionCenterId = 1; 
+  const adoptionCenterId = 1; // puedes reemplazar con la ID real de la sesión si quieres
 
+  // Función para actualizar el menú seleccionado
   function updateSelection(selectedItem) {
     menuItems.forEach(li => {
       li.innerHTML = li.textContent;
@@ -13,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     selectedItem.innerHTML = `<b><u>${selectedItem.textContent}</u></b>`;
   }
 
+  // Función para obtener las mascotas según el estado
   function fetchPets(status) {
     fetch(`/HackAnimal/apis/myanimals.php?adoptionCenterId=${adoptionCenterId}&status=${status}`)
       .then(res => res.json())
@@ -30,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
           card.classList.remove("template");
           card.style.display = "block";
 
+          // Foto de la mascota
           const petPhoto = card.querySelector(".petphoto img");
-          if (pet.photo || pet.image) {
-            const photoPath = pet.photo || pet.image;
-            petPhoto.src = "/hackAnimal/" + photoPath;
+          if (pet.image) {
+            petPhoto.src = "/hackAnimal/" + pet.image;
             petPhoto.alt = pet.name || "Pet photo";
             petPhoto.style.width = '300px';
           } else {
@@ -41,8 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
             petPhoto.alt = "No image available";
           }
 
+          // Nombre y especie
           card.querySelector(".name").textContent = pet.name;
           card.querySelector(".species").textContent = pet.species;
+
+          // Género
           const genderImg = card.querySelector(".gender img");
           const genderText = card.querySelector(".gender");
           if (pet.gender && pet.gender.toLowerCase() === 'male') {
@@ -55,8 +61,9 @@ document.addEventListener("DOMContentLoaded", () => {
             genderText.setAttribute("data-gender", "Unknown");
           }
 
+          // Información
           card.querySelector(".status").innerHTML = `<b>Status:</b> ${pet.status}`;
-          card.querySelector(".age").innerHTML = `<b>Age:</b> ${pet.age} years`;
+          card.querySelector(".age").innerHTML = `<b>Age:</b> ${pet.age || "N/A"} years`;
           card.querySelector(".breed").innerHTML = `<b>Breed:</b> ${pet.breed || "N/A"}`;
           card.querySelector(".size").innerHTML = `<b>Size:</b> ${pet.size || "N/A"}`;
           card.querySelector(".color").innerHTML = `<b>Color:</b> ${pet.color || "N/A"}`;
@@ -75,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .catch(err => console.error("Error fetching pets:", err));
   }
 
+  // Eventos de clic en el menú
   menuItems.forEach(li => {
     li.addEventListener("click", () => {
       const status = li.id;
@@ -83,8 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
+  // Carga inicial
   const defaultItem = document.getElementById("UpForAdoption");
   updateSelection(defaultItem);
   fetchPets("UpForAdoption");
-
 });

@@ -1,5 +1,4 @@
 <?php
-session_start();
 	class Database {
 		private static $dbName        = 'hackanimal';
 		private static $dbHost        = 'localhost'; 
