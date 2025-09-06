@@ -1,10 +1,20 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit();
+}
 require 'databaseconnection.php';
 header('Content-Type: application/json');
 
+<<<<<<< HEAD
 $adoptionCenterId = $_GET['adoptionCenterId'] ?? 1;
 $status = $_GET['status'] ?? 'UpForAdoption'; 
+=======
+$adoptionCenterId = $_SESSION['adoptionCenterId']; 
+$status = $_GET['status'] ?? 'UpForAdoption'; // corregido
+>>>>>>> origin/aleRefugio
 
 try {
     $pdo = Database::connect();

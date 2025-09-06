@@ -1,10 +1,4 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
-
 include_once('../conf/db.config.php'); 
 
 // Instanciar la conexión
@@ -37,9 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-
     try {
-        // Preparar query (ajusta columnas según tu tabla adoptioncenter)
+        // Preparar query
         $query = $pdo->prepare("
             INSERT INTO adoptioncenter 
             (user, password, name, country, city, state, postalCode, street, photo) 
@@ -47,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (:user, :password, :name, :country, :city, :state, :postalCode, :street, :photo)
         ");
         
-        // Bind de parámetros
         $query->bindParam(':user', $user, PDO::PARAM_STR);
         $query->bindParam(':password', $password, PDO::PARAM_STR);
         $query->bindParam(':name', $shelterName, PDO::PARAM_STR);
@@ -58,46 +50,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $query->bindParam(':street', $street, PDO::PARAM_STR);
         $query->bindParam(':photo', $photoPath, PDO::PARAM_STR);
 
-        // Ejecutar
         if ($query->execute()) {
-            echo "
-<!DOCTYPE html>
-<html lang='es'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Registro Exitoso</title>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='d-flex justify-content-center align-items-center vh-100 bg-success text-white'>
-    <div class='text-center'>
-        <h1>🎉 Registro Exitoso</h1>
-        <p>¡Bienvenido $shelterName!</p>
-        <a href='../login.html' class='btn btn-light mt-3'>Ir al inicio</a>
-    </div>
-</body>
-</html>";
+            $adoptionCenterId = $pdo->lastInsertId();
+
+            // 🔑 Iniciar sesión automáticamente
+            session_start();
+            $_SESSION['user'] = $user;
+            $_SESSION['adoptionCenterId'] = $adoptionCenterId;
+
+            header("Location: ../myanimals.html");
+            exit();
         } else {
             throw new Exception("Error durante el registro");
         }
     } catch (PDOException $e) {
         echo "
-<!DOCTYPE html>
-<html lang='es'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>Error al Registrar</title>
-    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body class='d-flex justify-content-center align-items-center vh-100 bg-danger text-white'>
-    <div class='text-center'>
-        <h1>❌ Error</h1>
-        <p>No se pudo registrar al usuario.<br> {$e->getMessage()}</p>
-        <a href='../signup.html' class='btn btn-light mt-3'>Volver a intentar</a>
-    </div>
-</body>
-</html>";
+        <!DOCTYPE html>
+        <html lang='es'>
+        <head>
+            <meta charset='UTF-8'>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+            <title>Error al Registrar</title>
+            <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css' rel='stylesheet'>
+        </head>
+        <body class='d-flex justify-content-center align-items-center vh-100 bg-danger text-white'>
+            <div class='text-center'>
+                <h1>❌ Error</h1>
+                <p>No se pudo registrar al usuario.<br> {$e->getMessage()}</p>
+                <a href='../signup.html' class='btn btn-light mt-3'>Volver a intentar</a>
+            </div>
+        </body>
+        </html>";
     }
 }
 ?>
