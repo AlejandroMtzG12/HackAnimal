@@ -2,8 +2,8 @@
 require 'databaseconnection.php';
 header('Content-Type: application/json; charset=utf-8');
 
-$adoptionCenterId = $_SESSION['user_id'];
-$status = $_GET['status'] ?? 'UpForAdoption';
+$adoptionCenterId = $_GET['user_id'] ?? 1;
+$status = $_GET['status'] ?? 'UpForAdoption'; // corregido
 
 try {
     $pdo = Database::connect();

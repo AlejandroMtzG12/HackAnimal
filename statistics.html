@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <link href="css/styles_myanimals.css" rel="stylesheet" type="text/css" />
+  <link href="css/styles_statistics.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -66,6 +66,29 @@
 
     <div class="main">
        
+      <h2>Species</h2>
+      <canvas id="chartSpecies"></canvas>
+
+      <h2>Adoption Status</h2>
+      <h3>Dogs</h3>
+      <canvas id="chartStatusDog"></canvas>
+
+      <h3>Cats</h3>
+      <canvas id="chartStatusCat"></canvas>
+
+      <h3>Small Mammals</h3>
+      <canvas id="chartStatusSmallMammal"></canvas>
+
+      <h2>Spayed/Neutered Pets</h2>
+      <h3>Dogs</h3>
+      <canvas id="chartSterilizationDog"></canvas>
+
+      <h3>Cats</h3>
+      <canvas id="chartSterilizationCat"></canvas>
+
+      <h3>Small Mammals</h3>
+      <canvas id="chartSterilizationSmallMammal"></canvas>
+    </div>
 
 
 
@@ -76,13 +99,8 @@
   </div>
     
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
-  
-
-
-  
-  <canvas id="PieChart" width="400" height="400"></canvas>
     
   <script src="js/statistics.js"></script>
 </body>
