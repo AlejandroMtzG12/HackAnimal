@@ -1,9 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit();
-}
+
 
 include_once('../conf/db.config.php');
 
@@ -43,7 +40,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $pdo->beginTransaction();
 
-        // 1. Insertar en file
         $stmtFile = $pdo->prepare("
             INSERT INTO file (status, sterilization) 
             VALUES (:status, :sterilization)
@@ -54,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
         $fileId = $pdo->lastInsertId();
 
-        // 2. Insertar en pet
         $stmtPet = $pdo->prepare("
             INSERT INTO pet 
             (adoptionCenterId, species, name, age, coat, size, color, breed, weight, description, image, gender, fileId)
@@ -62,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (:adoptionCenterId, :species, :name, :age, :coat, :size, :color, :breed, :weight, :description, :image, :gender, :fileId)
         ");
         $stmtPet->execute([
-            ':adoptionCenterId' => $_SESSION['adoptionCenterId'],
+            ':adoptionCenterId' => $_SESSION['user_id'],
             ':species' => $species,
             ':name' => $name,
             ':age' => $age,
@@ -77,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ':fileId' => $fileId
         ]);
 
-        // 3. Insertar vacunas (si hay)
         if (!empty($_POST['vaccines'])) {
             $stmtVac = $pdo->prepare("INSERT INTO vaccines (name, idFile) VALUES (:name, :idFile)");
             foreach ($_POST['vaccines'] as $vaccineName) {
@@ -91,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $pdo->commit();
-        echo "<script>alert('Mascota registrada con éxito'); window.location.href='../myanimals.html';</script>";
+        echo "<script> window.location.href='../myanimals.html';</script>";
 
     } catch (PDOException $e) {
         $pdo->rollBack();

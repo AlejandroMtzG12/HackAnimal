@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         session_regenerate_id(true);
         $_SESSION['user_id'] = $r['id'];
         $_SESSION['name'] = $r['name'];
+        $_SESSION['photo'] = $r['photo'];
         header('Location: ../myanimals.html');
         exit();
     } else {
