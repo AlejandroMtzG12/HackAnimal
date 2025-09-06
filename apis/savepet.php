@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             (:adoptionCenterId, :species, :name, :age, :coat, :size, :color, :breed, :weight, :description, :image, :gender, :fileId)
         ");
         $stmtPet->execute([
-            ':adoptionCenterId' => 1, // Ajusta según tu sesión/logged in center
+            ':adoptionCenterId' => $_SESSION['adoptionCenterId'],
             ':species' => $species,
             ':name' => $name,
             ':age' => $age,

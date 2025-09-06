@@ -1,9 +1,14 @@
 <?php
 
+session_start();
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit();
+}
 require 'databaseconnection.php';
 header('Content-Type: application/json');
 
-$adoptionCenterId = $_GET['adoptionCenterId'] ?? 1;
+$adoptionCenterId = $_SESSION['adoptionCenterId']; 
 $status = $_GET['status'] ?? 'UpForAdoption'; // corregido
 
 try {

@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  const defaultItem = document.getElementById("Upforadoption");
+  const defaultItem = document.getElementById("UpForAdoption");
   updateSelection(defaultItem);
   fetchPets("UpForAdoption");
+
 });

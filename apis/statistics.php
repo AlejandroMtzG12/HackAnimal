@@ -8,7 +8,7 @@ if (!isset($_SESSION['user'])) {
 require 'databaseconnection.php';
 header('Content-Type: application/json');
 
-$adoptionCenterId = $_GET['adoptionCenterId'] ?? 1;
+$adoptionCenterId = $_SESSION['adoptionCenterId']; 
 
 try {
     $pdo = Database::connect();
